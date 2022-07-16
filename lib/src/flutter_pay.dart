@@ -103,3 +103,24 @@ class FlutterPay {
     }
   }
 }
+
+class GooglePayReturnData{
+  String? token;
+  String? apiVersion;
+  String? apiVersionMinor;
+  String? description;
+  String? type;
+  String? cardDetails;
+  String? cardNetwork;
+  String? tokenizationType;
+  GooglePayReturnData(Map<String,String?> data){
+    token = data['token'];
+    apiVersion = data['apiVersion'];
+    apiVersionMinor = data['apiVersionMinor'];
+    description = data['description'];
+    type = data['type'];
+    cardDetails = data['cardDetails'];
+    cardNetwork = data['cardNetwork'];
+    tokenizationType = data['tokenizationType'];
+  }
+}
