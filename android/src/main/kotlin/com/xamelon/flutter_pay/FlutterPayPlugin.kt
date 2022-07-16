@@ -293,14 +293,31 @@ class FlutterPayPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Activi
 
                     if (paymentData != null) {
                         val paymentDataString = paymentData.toJson()
-                        val paymentDataJSONObject = JSONObject(paymentDataString)
+                        val paymentDataJSONObject = JSONObject(paymentDataString) as JSONObject
                         val paymentMethodData = paymentDataJSONObject["paymentMethodData"] as? JSONObject
                         if (paymentMethodData != null) {
                             val tokenizationData = paymentMethodData["tokenizationData"] as? JSONObject
+                            val infoData = paymentMethodData["info"] as JSONObject
                             if (tokenizationData != null) {
                                 val token = tokenizationData["token"] as? String
+                                val tokentype = tokenizationData["type"] as? String
+                                val apiVersion = (paymentDataJSONObject["apiVersion"] as? Int).toString()
+                                val apiVersionMinor = (paymentDataJSONObject["apiVersionMinor"] as? Int).toString()
+                                val description = paymentMethodData["description"] as? String
+                                val type = paymentMethodData["type"] as? String
+                                val cardDetails = infoData["cardDetails"] as? String
+                                val cardNetwork = infoData["cardNetwork"] as? String
                                 if (token != null) {
-                                    val response: Map<String, String> = mapOf("token" to token)
+                                    val response: Map<String, String?> = mapOf(
+                                            "token" to token,
+                                            "apiVersion" to apiVersion,
+                                            "apiVersionMinor" to apiVersionMinor,
+                                            "description" to description,
+                                            "type" to type,
+                                            "cardDetails" to cardDetails,
+                                            "cardNetwork" to cardNetwork,
+                                            "tokenizationType" to tokentype,
+                                    )
                                     this.lastResult?.success(response)
                                 }
                             }
